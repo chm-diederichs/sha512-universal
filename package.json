@@ -13,7 +13,7 @@
     "sha-test": "^1.0.0"
   },
   "dependencies": {
-    "sha512-wasm": "^1.2.0"
+    "sha512-wasm": "^2.0.3"
   },
   "bugs": {
     "url": "https://github.com/chm-diederichs/sha512-universal/issues"

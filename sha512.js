@@ -1,3 +1,6 @@
+if (btoa == null) var btoa = buf => require('buf' + 'fer')['Buf' + 'fer'].from(buf).toString('base64')
+if (atob == null) var atob = buf => new Uint8Array(require('buf' + 'fer')['Buf' + 'fer'].from(buf, 'base64'))
+
 const assert = require('nanoassert')
 
 module.exports = Sha512
@@ -96,7 +99,7 @@ Sha512.prototype.update = function (input, enc) {
   }
 
   if (len > 127) {
-    compress(this.hh, this.hl, input.subarray(BLOCKSIZE - pos, full - pos), full - BLOCKSIZE)
+    compress(this.hh, this.hl, inputBuf.subarray(BLOCKSIZE - pos, full - pos), full - BLOCKSIZE)
     len %= 128
   }
 
@@ -184,21 +187,6 @@ function hex2bin (str) {
   var ret = new Uint8Array(str.length / 2)
   for (var i = 0; i < ret.length; i++) ret[i] = Number('0x' + str.substring(2 * i, 2 * i + 2))
   return ret
-}
-
-function bswap (a) {
-  var r = ((a & 0x00ff00ff) >>> 8) | ((a & 0x00ff00ff) << 24)
-  var l = ((a & 0xff00ff00) << 8) | ((a & 0xff00ff00) >>> 24)
-
-  return r | l
-}
-
-function printWords (w) {
-  for (let i = 0; i < w.length; i += 8) console.log(Buffer.from(w.subarray(i, i + 8)).toString('hex'))
-}
-
-function signedInt (i) {
-  return i < 0 ? 2 ** 32 + i : i
 }
 
 function compress(hh, hl, m, n) {
