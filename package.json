@@ -3,9 +3,19 @@
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chm-diederichs/sha512-universal.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "benchmark": "^2.1.4",
+    "browserify": "^16.5.1",
+    "inverted-promise": "^1.0.1",
+    "microtime": "^3.0.0"
+  },
+  "dependencies": {
+    "sha512-wasm": "^1.2.0"
+  }
 }

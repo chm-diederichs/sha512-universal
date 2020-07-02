@@ -48,6 +48,8 @@ var K = [
 ]
 
 function Sha512 () {
+  if (!(this instanceof Sha512)) return new Sha512()
+
   this.hh = new Int32Array(8)
   this.hl = new Int32Array(8)
   this.buffer = new Uint8Array(128)
@@ -122,12 +124,13 @@ Sha512.prototype.digest = function (enc, offset = 0) {
   ts64(this.buffer, 120, (this.bytesRead / 0x20000000) | 0, this.bytesRead << 3)
   compress(this.hh, this.hl, this.buffer, 128)
 
-  const resultBuf = new Uint8Array(64)
-  for (i = 0; i < 8; i++) ts64(resultBuf, 8 * i, this.hh[i], this.hl[i])
-
-  if (!enc) {
-    return new Uint8Array(resultBuf)
+  if (enc instanceof Uint8Array && enc.byteLength > 63) {
+    for (let i = 0; i < 8; i++) ts64(enc, 8 * i + offset, this.hh[i], this.hl[i])
+    return enc
   }
+
+  const resultBuf = new Uint8Array(64)
+  for (let i = 0; i < 8; i++) ts64(resultBuf, 8 * i, this.hh[i], this.hl[i])
 
   if (typeof enc === 'string') {
     if (enc === 'hex') return hexSlice(resultBuf, 0, resultBuf.length)
@@ -136,14 +139,7 @@ Sha512.prototype.digest = function (enc, offset = 0) {
     throw new Error('Encoding: ' + enc + ' not supported')
   }
 
-  assert(enc instanceof Uint8Array, 'input must be Uint8Array or Buffer')
-  assert(enc.byteLength >= this.digestLength + offset, 'input not large enough for digest')
-
-  for (let i = 0; i < this.digestLength; i++) {
-    enc[i + offset] = resultBuf[i]
-  }
-
-  return enc
+  return resultBuf
 }
 
 function ts64 (x, i, h, l) {
