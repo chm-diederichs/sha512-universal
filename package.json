@@ -1,21 +1,28 @@
 {
   "name": "sha512-universal",
   "version": "0.0.0",
-  "description": "",
+  "description": "Sha512 implemented in both WASM and pure JS",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chm-diederichs/sha512-universal.git"
   },
-  "author": "",
+  "author": "Christophe Diederichs",
   "license": "ISC",
   "devDependencies": {
-    "benchmark": "^2.1.4",
-    "browserify": "^16.5.1",
-    "inverted-promise": "^1.0.1",
-    "microtime": "^3.0.0"
+    "sha-test": "^1.0.0"
   },
   "dependencies": {
     "sha512-wasm": "^1.2.0"
+  },
+  "bugs": {
+    "url": "https://github.com/chm-diederichs/sha512-universal/issues"
+  },
+  "homepage": "https://github.com/chm-diederichs/sha512-universal#readme",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node test"
   }
 }

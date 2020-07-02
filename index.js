@@ -16,7 +16,7 @@ module.exports.ready = function (cb) {
 module.exports.WASM_SUPPORTED = wasm.SUPPORTED
 module.exports.WASM_LOADED = false
 
-var SHA512_BYTES = module.exports.SHA512_BYTES = 32
+var SHA512_BYTES = module.exports.SHA512_BYTES = 64
 
 wasm.ready(function (err) {
   if (!err) {
