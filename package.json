@@ -10,10 +10,10 @@
   "author": "Christophe Diederichs",
   "license": "ISC",
   "devDependencies": {
-    "sha-test": "^1.0.0"
+    "sha-test": "^1.1.0"
   },
   "dependencies": {
-    "sha512-wasm": "^2.0.3"
+    "sha512-wasm": "^2.1.0"
   },
   "bugs": {
     "url": "https://github.com/chm-diederichs/sha512-universal/issues"
