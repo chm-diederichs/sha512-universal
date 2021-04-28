@@ -1,6 +1,6 @@
 {
   "name": "sha512-universal",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Sha512 implemented in both WASM and pure JS",
   "main": "index.js",
   "repository": {
