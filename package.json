@@ -13,6 +13,7 @@
     "sha-test": "^1.1.0"
   },
   "dependencies": {
+    "b4a": "^1.0.1",
     "sha512-wasm": "^2.3.1"
   },
   "bugs": {
