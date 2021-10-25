@@ -1,7 +1,5 @@
-if (btoa == null) var btoa = buf => require('buf' + 'fer')['Buf' + 'fer'].from(buf).toString('base64')
-if (atob == null) var atob = buf => new Uint8Array(require('buf' + 'fer')['Buf' + 'fer'].from(buf, 'base64'))
-
 const assert = require('nanoassert')
+const b4a = require('b4a')
 
 module.exports = Sha512
 
@@ -136,10 +134,7 @@ Sha512.prototype.digest = function (enc, offset = 0) {
   for (let i = 0; i < 8; i++) ts64(resultBuf, 8 * i, this.hh[i], this.hl[i])
 
   if (typeof enc === 'string') {
-    if (enc === 'hex') return hexSlice(resultBuf, 0, resultBuf.length)
-    if (enc === 'utf8' || enc === 'utf-8') return new TextEncoder().encode(resultBuf)
-    if (enc === 'base64') return btoa(resultBuf)
-    throw new Error('Encoding: ' + enc + ' not supported')
+    return b4a.toString(resultBuf, enc)
   }
 
   return resultBuf
@@ -156,37 +151,10 @@ function ts64 (x, i, h, l) {
   x[i + 7] = l & 0xff
 }
 
-function hexSlice (buf, start = 0, len) {
-  if (!len) len = buf.byteLength
-
-  var str = ''
-  for (var i = 0; i < len; i++) str += toHex(buf[start + i])
-  return str
-}
-
-function toHex (n) {
-  if (n < 16) return '0' + n.toString(16)
-  return n.toString(16)
-}
-
 function formatInput (input, enc) {
-  var result = input instanceof Uint8Array ? input : strToBuf(input, enc)
+  var result = b4a.from(input, enc)
 
   return [result, result.byteLength]
-}
-
-function strToBuf (input, enc) {
-  if (enc === 'hex') return hex2bin(input)
-  else if (enc === 'utf8' || enc === 'utf-8') return new TextDecoder().decode(input)
-  else if (enc === 'base64') return atob(input)
-  else throw new Error('Encoding: ' + enc + ' not supported')
-}
-
-function hex2bin (str) {
-  if (str.length % 2 !== 0) return hex2bin('0' + str)
-  var ret = new Uint8Array(str.length / 2)
-  for (var i = 0; i < ret.length; i++) ret[i] = Number('0x' + str.substring(2 * i, 2 * i + 2))
-  return ret
 }
 
 function compress(hh, hl, m, n) {
@@ -551,11 +519,11 @@ function compress(hh, hl, m, n) {
 function HMAC (key) {
   if (!(this instanceof HMAC)) return new HMAC(key)
 
-  this.pad = Buffer.alloc(128)
+  this.pad = b4a.alloc(128)
   this.inner = Sha512()
   this.outer = Sha512()
 
-  const keyhash = Buffer.alloc(64)
+  const keyhash = b4a.alloc(64)
   if (key.byteLength > 128) {
     Sha512().update(key).digest(keyhash)
     key = keyhash
