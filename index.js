@@ -20,7 +20,7 @@ var SHA512_BYTES = module.exports.SHA512_BYTES = 64
 
 wasm.ready(function (err) {
   if (!err) {
-    module.exports.WASM_LOADED = true
     module.exports = Proto = wasm
+    module.exports.WASM_LOADED = true
   }
 })
